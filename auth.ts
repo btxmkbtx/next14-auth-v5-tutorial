@@ -6,6 +6,7 @@ import authConfig from '@/auth.config'
 import { getUserById } from '@/data/user'
 import { UserRole } from '@prisma/client'
 
+//从NextAuth导出的signIn，signOut，都只能在'use server'的组件或Action中使用
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     // 返回的session会放入全局的「import { auth } from '@/auth'」中
