@@ -22,6 +22,7 @@ export default auth(req => {
     return undefined
   }
 
+  // 如果当前页面路由是登录界面，但是用户已经完成登录，我们可以按照需求重定向到指定页面，这里指定settings页面
   if (isAuthRoute) {
     if (isLoggedIn) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
