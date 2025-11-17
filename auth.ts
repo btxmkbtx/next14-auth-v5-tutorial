@@ -21,7 +21,16 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       return session
     },
-    //关系：jwt返回的token会传给上面的session
+    /*
+    关系：jwt 回调处理并返回的 token 会传递给 session 回调
+    这里jwt({ token }) 中的 token 是 NextAuth 框架生成和管理的 token，不是从后台 API 返回的 token。
+    token 的来源：
+      1.这是 NextAuth 内部的 JWT token
+      2.包含用户认证信息（如 sub、email 等）
+      3.由 NextAuth 根据登录 provider 的返回数据自动生成
+    token 的生命周期：
+      用户登录 → NextAuth 生成初始 token → jwt 回调处理 → 返回增加自定义项目的 token
+    */
     async jwt({ token }) {
       if (!token.sub) return token
 
@@ -29,7 +38,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       if (!existingUser) return token
 
-      token.role = existingUser.role
+      token.role = existingUser.role // 扩展 NextAuth 的 token 中的自定义项目
 
       return token
     }
