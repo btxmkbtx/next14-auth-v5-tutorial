@@ -16,7 +16,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
 
       if (token.role && session.user) {
-        session.user.role = token.role as UserRole
+        session.user.role = token.role as UserRole // 将jwt中扩展的项目赋值到session中，这样session中就有role字段了
+      }
+
+      if (token.xxxxxx && session.user) {
+        session.user.xxxxxx = token.xxxxxx as string // 将jwt中扩展的项目赋值到session中，这样session中就有xxxxxx字段了
       }
 
       return session
@@ -39,6 +43,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (!existingUser) return token
 
       token.role = existingUser.role // 扩展 NextAuth 的 token 中的自定义项目
+      token.xxxxxx =
+        '任何需要拓展的信息都可以这样添加，注意提前在 next-auth.d.ts中声明类型'
 
       return token
     }

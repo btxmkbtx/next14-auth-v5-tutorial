@@ -35,3 +35,33 @@ auth.ts
 
 NextAuth 提供了一系列常见的厂牌单点登录服务，如 Github, Google 等等。
 这些服务以内部固定的 id 识别，通过传递 id 给 NextAuth 的「signIn」就可以触发「auth.config.ts」下配置在 providers 内的对应方法。
+
+# NextAuth 的 token
+
+## token 发行
+
+auth.ts jwt=>session
+
+## session 拓展
+
+next-auth.d.ts
+
+```typescript
+xxxxxx: string // 根据 auth.ts 中 jwt 回调中扩展的项目来添加类型声明
+```
+
+auth.ts
+
+```typescript
+    async session({ token, session }) {
+...
+        session.user.xxxxxx = token.xxxxxx as string
+...
+    },
+    async jwt({ token }) {
+...
+      token.xxxxxx =
+        '任何需要拓展的信息都可以这样添加，注意提前在 next-auth.d.ts中声明类型'
+...
+    }
+```
