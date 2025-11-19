@@ -49,6 +49,16 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return token
     }
   },
+  /**
+    GitHub/Google 等第三方登录
+         ↓
+    OAuth provider 返回用户信息
+            ↓
+    PrismaAdapter 自动处理：
+      - 在 User 表中创建/更新用户记录
+      - 在 Account 表中存储 OAuth 账户信息
+      - 建立用户与第三方账户的关联
+   */
   adapter: PrismaAdapter(db),
   session: { strategy: 'jwt' },
   secret: process.env.AUTH_SECRET, //确保这个secret在env环境变量中设置
